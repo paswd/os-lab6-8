@@ -14,7 +14,7 @@ int main(void) {
 	bool first = true;
 	string bank_str = "";
 	size_t bank_id = 0;
-	//
+	
 	do {
 		if (first) {
 			first = false;
