@@ -26,10 +26,13 @@ int main(void) {
 		bank_id = StringToUNum(bank_str);
 	} while (!IsStringDouble(bank_str) || bank_id == 0);
 
-	cout << "Введите ip-адрес сервера:" << endl;
+	cout << "Введите ip-адрес сервера [default `localhost`]:" << endl;
 	string ip_str = "";
 	getline(cin, ip_str);
 	ip_str = GetParameter(ip_str, 0);
+	if (ip_str == "") {
+		ip_str = "localhost";
+	}
 
 	void* context = zmq_ctx_new();
 	
