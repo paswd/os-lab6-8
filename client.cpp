@@ -36,9 +36,6 @@ int main(void) {
 	void* request = zmq_socket(context, ZMQ_REQ);
 	string address = "tcp://" + ip_str + ":";
 	address += UNumToString(bank_id);
-	//cout << "Address: " << address << endl;
-	//int connect_log = ;
-	//cout << "Log: " << connect_log << endl;
 	if (zmq_connect(request, address.c_str()) != 0) {
 		cout << "Не удалось подключиться к серверу" << endl;
 		return 0;
