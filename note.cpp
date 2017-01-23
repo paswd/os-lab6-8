@@ -11,24 +11,24 @@ Note::Note(double id) {
 	this->Id = id;
 	this->Balance = 0;
 }
-Note::Note(double id, size_t summ) {
+Note::Note(double id, double summ) {
 	this->Id = id;
 	this->Balance = summ;
 }
 Note::~Note(void) {
 
 }
-void Note::Push(size_t summ) {
+void Note::Push(double summ) {
 	this->Balance += summ;
 }
-bool Note::Pop(size_t summ) {
+bool Note::Pop(double summ) {
 	if (summ > this->Balance) {
 		return false;
 	}
 	this->Balance -= summ;
 	return true;
 }
-size_t Note::GetBalance(void) {
+double Note::GetBalance(void) {
 	return this->Balance;
 }
 
@@ -67,5 +67,5 @@ void Note::Import(FILE *file) {
 }
 void Note::Export(FILE *file) {
 	fwrite(&this->Id, sizeof(double), 1, file);
-	fwrite(&this->Balance, sizeof(size_t), 1, file);
+	fwrite(&this->Balance, sizeof(double), 1, file);
 }

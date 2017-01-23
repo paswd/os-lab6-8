@@ -18,5 +18,6 @@ size_t CharToUNum(char sym);
 size_t StringToUNum(std::string str);
 void StringToBas(std::string str, char *arr, size_t str_size);
 std::string GetParameter(std::string str, size_t num);
+std::string dtos(double x);
 
 #endif // CONVERTER_H

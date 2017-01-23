@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -165,4 +166,9 @@ string GetParameter(string str, size_t num) {
 		res += str[i];
 	}
 	return res;
+}
+string dtos(double x) {
+    std::stringstream s;
+    s << x;
+    return s.str();
 }
