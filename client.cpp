@@ -14,6 +14,7 @@ int main(void) {
 	bool first = true;
 	string bank_str = "";
 	size_t bank_id = 0;
+
 	do {
 		if (first) {
 			first = false;
@@ -24,6 +25,25 @@ int main(void) {
 		getline(cin, bank_str);
 		bank_id = StringToUNum(bank_str);
 	} while (!IsStringDouble(bank_str) || bank_id == 0);
+
+	cout << "Введите ip-адрес сервера:" << endl;
+	string ip_str = "";
+	getline(cin, ip_str);
+	ip_str = GetParameter(ip_str, 0);
+
+	void* context = zmq_ctx_new();
+	
+	void* request = zmq_socket(context, ZMQ_REQ);
+	string address = "tcp://" + ip_str + ":";
+	address += UNumToString(bank_id);
+	//cout << "Address: " << address << endl;
+	//int connect_log = ;
+	//cout << "Log: " << connect_log << endl;
+	if (zmq_connect(request, address.c_str()) != 0) {
+		cout << "Не удалось подключиться к серверу" << endl;
+		return 0;
+	}
+
 
 	first = true;
 	string id_str = "";
@@ -40,13 +60,6 @@ int main(void) {
 	} while (!IsStringDouble(id_str) || user_id == 0.0);
 
 	cout << "Настройка клиента закончена" << endl;
-
-	void* context = zmq_ctx_new();
-	
-	void* request = zmq_socket(context, ZMQ_REQ);
-	string address = "tcp://localhost:";
-	address += UNumToString(bank_id);
-	zmq_connect(request, address.c_str());
 
 	id_str += " ";
 
