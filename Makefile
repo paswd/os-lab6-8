@@ -5,7 +5,7 @@ all: start
 
 start: server.o client.o converter.o note.o bintree.o
 	$(COMPILLER) $(FLAGS) -o server converter.o note.o bintree.o server.o
-	$(COMPILLER) $(FLAGS) -o client client.o
+	$(COMPILLER) $(FLAGS) -o client converter.o client.o
 
 server.o: server.cpp
 	$(COMPILLER) -c $(FLAGS) server.cpp
