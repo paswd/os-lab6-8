@@ -50,9 +50,6 @@ int main(void) {
 
 	id_str += " ";
 
-	//char *str_tmp = (char *) calloc(MESSAGE_SIZE, sizeof(char));
-	//char *str_tmp = new char[MESSAGE_SIZE];
-
 	while (true) {
 		char str_tmp[MESSAGE_SIZE];
 		cout << ">>> ";
@@ -65,48 +62,22 @@ int main(void) {
 			}
 			break;
 		}
-		//cout << "Point 01" << endl;
-		//string cmd_total = id_str + cmd;
 		cmd = id_str + cmd;
-		//cout << cmd << endl;
-		//cout << "Point 1" << endl;
 		zmq_msg_t req;
-		//cout << "Point 2" << endl;
 		zmq_msg_init_size(&req, MESSAGE_SIZE);
-		//cout << "Point 3" << endl;
-		//StringToBas(cmd_total, str_tmp, MESSAGE_SIZE);
 		strcpy(str_tmp, cmd.c_str());
-		//cout << "Point 4" << endl;
-		//cout << "cmd: " << str_tmp << endl;
 		memcpy(zmq_msg_data(&req), str_tmp, MESSAGE_SIZE);
-		//cout << "Point 5" << endl;
-		//printf("Sending: hello - %d\n", count);
 		zmq_msg_send(&req, request, 0);
-		//cout << "Point 6" << endl;
 		zmq_msg_close(&req);
-		//cout << "Point 7" << endl;
-		//cout << "Point 7.1" << endl;
-		//delete [] str_tmp;
-		//cout << "Point 7.2" << endl;
-		//cout << "Point 7.3" << endl;
-		//str_tmp = new char[MESSAGE_SIZE];
 		zmq_msg_t reply;
-		//cout << "Point 8" << endl;
 		zmq_msg_init(&reply);
-		//cout << "Point 9" << endl;
 		zmq_msg_recv(&reply, request, 0);
-		//cout << "Point 10" << endl;
 		memcpy(&str_tmp, zmq_msg_data(&reply), MESSAGE_SIZE);
 		str_tmp[MESSAGE_SIZE - 1] = '\0';
-		//cout << "Point 11" << endl;
-		//string ans(str_tmp);
 		cout << str_tmp << endl;
-		//printf("Received: hello - %d\n", count);
 		zmq_msg_close(&reply);
 		
 	}
-	//delete [] str_tmp;
-	//free(str_tmp);
 
 	zmq_close(request);
 	zmq_ctx_destroy(context);

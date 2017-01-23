@@ -14,7 +14,6 @@ const size_t MESSAGE_SIZE = 512;
 const string CURRENCY_TITLE = " руб.";
 
 string Parser(Bintree *tree, string cmd) {
-	//cmd = StringToLower(cmd);
 	string id_str = GetParameter(cmd, 0);
 	if (!IsStringDouble(id_str)) {
 		return "Неправильный идентификатор";
@@ -132,7 +131,6 @@ int main(void) {
 	size_t server_id = 0;
 	string str_server_id = "";
 	cout << "Select server ID [default 4040]: " << endl;
-	//cin >> server_id;
 	getline(cin, str_server_id);
 	server_id = StringToUNum(str_server_id);
 
@@ -156,90 +154,43 @@ int main(void) {
 		string db_filename = ".bank_database_" + UNumToString(server_id);
 		tree.Import(db_filename);
 
-		//char *str_tmp = (char *) calloc(MESSAGE_SIZE, sizeof(char));
-		//char *str_tmp = new char[MESSAGE_SIZE];
-		
 		while (true) {
-			//string cmd = "";
-			//cout << "Point1" << endl;
-			//char *str_tmp = new char[MESSAGE_SIZE];
 			char str_tmp[MESSAGE_SIZE];
 			str_tmp[MESSAGE_SIZE - 1] = '\0';
-			//cout << "Point2" << endl;
 			zmq_msg_t request;
-			//cout << "Point3" << endl;
 			zmq_msg_init(&request);
-			//cout << "Point4" << endl;
 			zmq_msg_recv(&request, respond, 0);
-			//cout << "Point5" << endl;
 			memcpy(&str_tmp, zmq_msg_data(&request), MESSAGE_SIZE);
-			//cout << "Len: " << strlen(str_tmp) << endl;
-			//cout << "Point6" << endl;
 			str_tmp[MESSAGE_SIZE - 1] = '\0';
-			//cout << "Point6.1" << endl;
 			cout << "Got command: `" << str_tmp << "`" << endl;
-			//cout << "Point6.2" << endl;
 			string cmd(str_tmp);
-			//cout << "Point7" << endl;
-			//delete [] str_tmp;
-			//cout << "Point7.1" << endl;
 			zmq_msg_close(&request);
-			//cout << "Point7.2" << endl;
-			
-			//cout << "Got command: `" << cmd << "`" << endl;
-			//getline(cin, cmd); //Получение команды от клиента
-			//string id_str = GetParameter(cmd, 0);
-			//cout << "Point7.3" << endl;
 			
 			cmd = StringToLower(cmd);
-			//cout << "Point8" << endl;
 			bool exit = false;
-			//cout << "Point9" << endl;
 			string ans = "";
-			//cout << "Point10" << endl;
 			string action = GetParameter(cmd, 1);
-			//cout << "Point11" << endl;
 			if (cmd == "poweroff" || action == "poweroff") {
 				exit = true;
 				ans = "Server power off...";
-				//cout << "Server power off..." << endl;
 			} else if (cmd == "reboot" || action == "reboot") {
 				exit = true;
 				server_start = true;
 				ans = "Server is rebooting...";
-				//cout << "Server is rebooting..." << endl;
 			} else {
 				ans = Parser(&tree, cmd);
 			}
-			//cout << "Point12" << endl;
-			//cout << "Answer: " << ans << endl;
-			//str_tmp = ans.c_str();
-			//cout << "Point13" << endl;
-			//StringToBas(ans, str_tmp, MESSAGE_SIZE);
-			//str_tmp = new char[MESSAGE_SIZE];
 			strcpy(str_tmp, ans.c_str());
-			//cout << "Point13.1" << endl;
 			cout << "Answer: " << str_tmp << endl;
-			//cout << "Point14" << endl;
 			zmq_msg_t reply;
-			//cout << "Point15" << endl;
 			zmq_msg_init_size(&reply, MESSAGE_SIZE);
-			//cout << "Point16" << endl;
 			memcpy(zmq_msg_data(&reply), str_tmp, MESSAGE_SIZE);
-			//cout << "Point17" << endl;
 			zmq_msg_send(&reply, respond, 0);
-			//cout << "Point18" << endl;
 			zmq_msg_close(&reply);
-			//cout << "Point19" << endl;
 			if (exit) {
 				break;
 			}
-			//cout << "Point20" << endl;
-			//delete [] str_tmp;
-			//cout << "Point21" << endl;
 		}
-		//free(str_tmp);
-		//delete str_tmp;
 
 		tree.Export(db_filename);
 

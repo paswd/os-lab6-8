@@ -13,14 +13,8 @@ server.o: server.cpp
 client.o: client.cpp
 	$(COMPILLER) -c $(FLAGS) client.cpp
 
-treetest: bintree.o testbintree.o
-	$(COMPILLER) $(FLAGS) -o testbintree bintree.o testbintree.o
-
 bintree.o: bintree.cpp
 	$(COMPILLER) -c $(FLAGS) bintree.cpp
-
-testbintree.o: testbintree.cpp
-	$(COMPILLER) -c $(FLAGS) testbintree.cpp
 
 note.o: note.cpp
 	$(COMPILLER) -c $(FLAGS) note.cpp
