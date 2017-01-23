@@ -66,6 +66,9 @@ bool IsCharNum(char sym) {
 	return sym >= '0' && sym <= '9';
 }
 bool IsStringNum(string str) {
+	if (str.size() == 0) {
+		return false;
+	}
 	for (size_t i = 0; i < str.size(); i++) {
 		if (!IsCharNum(str[i])) {
 			return false;
@@ -74,6 +77,9 @@ bool IsStringNum(string str) {
 	return true;
 }
 bool IsStringDouble(string str) {
+	if (str.size() == 0) {
+		return false;
+	}
 	bool is_point = false;
 	for (size_t i = 0; i < str.size(); i++) {
 		if (!IsCharNum(str[i]) && !(str[i] == '.' && !is_point)) {

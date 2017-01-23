@@ -13,9 +13,6 @@ server.o: server.cpp
 client.o: client.cpp
 	$(COMPILLER) -c $(FLAGS) client.cpp
 
-clear:
-	-rm -f *.o *.gch *.so server client
-
 treetest: bintree.o testbintree.o
 	$(COMPILLER) $(FLAGS) -o testbintree bintree.o testbintree.o
 
@@ -30,3 +27,6 @@ note.o: note.cpp
 
 converter.o: converter.cpp
 	$(COMPILLER) -c $(FLAGS) converter.cpp
+
+clear:
+	-rm -f *.o *.gch *.so server client .bank_database_*

@@ -23,7 +23,10 @@ public:
 	friend bool operator <=(Note& note1, Note& note2);
 	friend bool operator >(Note& note1, Note& note2);
 	friend bool operator >=(Note& note1, Note& note2);
-	friend std::ostream& operator<<(std::ostream& os, const Note& note); 
+	friend std::ostream& operator<<(std::ostream& os, const Note& note);
+
+	void Import(FILE *file);
+	void Export(FILE *file);
 };
 
 #endif

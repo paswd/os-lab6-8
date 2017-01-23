@@ -126,20 +126,24 @@ int main(void) {
 	cout << "Server starting..." << endl;
 	//void* context = zmq_ctx_new();
 	//void* respond = zmq_socket(context, ZMQ_REP);
-	/*size_t server_id = 0;
-	cout << "Select server ID [default 4040]: ";
-	cin >> server_id;
+	size_t server_id = 0;
+	string str_server_id = "";
+	cout << "Select server ID [default 4040]: " << endl;
+	//cin >> server_id;
+	getline(cin, str_server_id);
+	server_id = StringToUNum(str_server_id);
+
 	if (server_id == 0) {
 		server_id = SERVER_ID_DEFAULT;
 	}
 	string server_id_str = UNumToString(server_id);
-	string server_bind = "tcp://" + "*:" + server_id_str;
-	zmq_bind(respond, server_bind.c_str());
-	cout << "Bank server started" << endl;*/
+	//string server_bind = "tcp://" + "*:" + server_id_str;
+	//zmq_bind(respond, server_bind.c_str());
+	cout << "Bank server started" << endl;
 
 	Bintree tree;
-	//string db_filename = ".database" + UNumToString(server_id);
-	//tree->Import(db_filename);
+	string db_filename = ".bank_database_" + UNumToString(server_id);
+	tree.Import(db_filename);
 	
 	while (true) {
 		string cmd = "";
@@ -148,7 +152,8 @@ int main(void) {
 		cmd = StringToLower(cmd);
 		bool exit = false;
 		string ans = "";
-		if (cmd == "poweroff") {
+		string action = GetParameter(cmd, 1);
+		if (cmd == "poweroff" || action == "poweroff") {
 			exit = true;
 			ans = "Server power off...";
 		} else {
@@ -161,7 +166,7 @@ int main(void) {
 		}
 	}
 
-	//tree->Export(db_filename);
+	tree.Export(db_filename);
 
 	return 0;
 }

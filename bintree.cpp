@@ -6,6 +6,18 @@
 
 using namespace std;
 
+const size_t CONTROL_SIZE = 11;
+
+bool IsCorrectControl(char *arr) {
+	char control[CONTROL_SIZE] = {'P', 'a', 's', 'W', 'D', 'L', 'a', 'b', '6', '-', '8'};
+	for (size_t i = 0; i < CONTROL_SIZE; i++) {
+		if (arr[i] != control[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+
 BintreeStruct::BintreeStruct(Item value) {
 	this->Left = NULL;
 	this->Right = NULL;
@@ -148,6 +160,26 @@ BintreeStruct *BintreeStruct::GetBranchRight(void) {
 Item BintreeStruct::GetValue(void) {
 	return this->Value;
 }
+size_t BintreeStruct::ElementsCount(void) {
+	size_t res = 1;
+	if (this->Left != NULL) {
+		res += this->Left->ElementsCount();
+	}
+	if (this->Right != NULL) {
+		res += this->Right->ElementsCount();
+	}
+	return res;
+}
+
+void BintreeStruct::Export(FILE *file) {
+	this->Value.Export(file);
+	if (this->Left != NULL) {
+		this->Left->Export(file);
+	}
+	if (this->Right != NULL) {
+		this->Right->Export(file);
+	}
+}
 
 //===============
 
@@ -201,4 +233,46 @@ BintreeStruct *Bintree::GetBranchRight(void) {
 }
 bool Bintree::IsEmpty(void) {
 	return this->Root == NULL;
+}
+size_t Bintree::ElementsCount(void) {
+	if (!this->Root) {
+		return 0;
+	}
+	return this->Root->ElementsCount();
+}
+
+bool Bintree::Import(std::string filename) {
+	cout << "Import started..." << endl;
+	FILE *file = fopen(filename.c_str(), "rb");
+	if (file == NULL) {
+		cout << "Import unable: no input file for import" << endl;
+		return false;
+	}
+	char control[CONTROL_SIZE];
+	fread(control, sizeof(char), CONTROL_SIZE, file);
+	if (!IsCorrectControl(control)) {
+		cout << "Import error: uncorrect file" << endl;
+		return false;
+	}
+	size_t elements_cnt = 0;
+	fread(&elements_cnt, sizeof(size_t), 1, file);
+	for (size_t i = 0; i < elements_cnt; i++) {
+		Note note_tmp;
+		note_tmp.Import(file);
+		this->Push(note_tmp);
+	}
+	fclose(file);
+	cout << "Import has been successfully completed" << endl;
+	return true;
+}
+void Bintree::Export(std::string filename) {
+	cout << "Export started..." << endl;
+	FILE *file = fopen(filename.c_str(), "wb");
+	char control[CONTROL_SIZE] = {'P', 'a', 's', 'W', 'D', 'L', 'a', 'b', '6', '-', '8'};
+	fwrite(control, sizeof(char), CONTROL_SIZE, file);
+	size_t elements_cnt = this->ElementsCount();
+	fwrite(&elements_cnt, sizeof(size_t), 1, file);
+	this->Root->Export(file);
+	fclose(file);
+	cout << "Export has been successfully completed" << endl;
 }

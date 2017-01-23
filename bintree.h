@@ -27,6 +27,9 @@ public:
 	BintreeStruct *GetBranchLeft(void);
 	BintreeStruct *GetBranchRight(void);
 	Item GetValue(void);
+	size_t ElementsCount(void);
+
+	void Export(FILE *file);
 };
 
 class Bintree {
@@ -47,9 +50,10 @@ public:
 	BintreeStruct *GetBranchLeft(void);
 	BintreeStruct *GetBranchRight(void);
 	bool IsEmpty(void);
+	size_t ElementsCount(void);
 
-	/*void Import(std::string filename);
-	void Export(std::string filename);*/
+	bool Import(std::string filename);
+	void Export(std::string filename);
 };
 
 #endif

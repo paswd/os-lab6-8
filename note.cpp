@@ -60,3 +60,12 @@ ostream& operator<<(ostream& os, const Note& note)
     os << note.Id << ':' << note.Balance;  
     return os;  
 }
+
+void Note::Import(FILE *file) {
+	fread(&this->Id, sizeof(double), 1, file);
+	fread(&this->Balance, sizeof(double), 1, file);
+}
+void Note::Export(FILE *file) {
+	fwrite(&this->Id, sizeof(double), 1, file);
+	fwrite(&this->Balance, sizeof(size_t), 1, file);
+}

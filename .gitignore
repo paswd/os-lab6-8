@@ -40,3 +40,4 @@ client
 in.txt
 out.txt
 protocol.txt
+.bank_database_*
