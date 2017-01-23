@@ -1,28 +1,55 @@
 #ifndef _BINTREE_H_
 #define _BINTREE_H_
 
-typedef long long Item;
+#include "note.h"
 
-class Bintree {
+typedef Note Item;
+
+class BintreeStruct {
 private:
-	Item Value;
-	Bintree *Left;
-	Bintree *Right;
+	BintreeStruct *Left;
+	BintreeStruct *Right;
 
 	void PrintLevel(size_t lvl);
 
 public:
-	Bintree(Item value);
-	~Bintree(void);
+	Item Value;
+
+	BintreeStruct(Item value);
+	~BintreeStruct(void);
 
 	void Push(Item value);
 	bool Pop(Item value);
+	BintreeStruct *Search(Item value);
 	void Print(void);
-	Bintree *Min(void);
-	Bintree *Max(void);
-	Bintree *GetBranchLeft(void);
-	Bintree *GetBranchRight(void);
+	BintreeStruct *Min(void);
+	BintreeStruct *Max(void);
+	BintreeStruct *GetBranchLeft(void);
+	BintreeStruct *GetBranchRight(void);
 	Item GetValue(void);
+};
+
+class Bintree {
+private:
+	BintreeStruct *Root;
+
+public:
+	Bintree(void);
+	~Bintree(void);
+
+	void Push(Item value);
+	void Pop(Item value);
+	BintreeStruct *Search(Item value);
+	void Print(void);
+	BintreeStruct *GetRoot(void);
+	BintreeStruct *Min(void);
+	BintreeStruct *Max(void);
+	BintreeStruct *GetBranchLeft(void);
+	BintreeStruct *GetBranchRight(void);
+	bool IsEmpty(void);
+
+	/*void Import(std::string filename);
+	void Export(std::string filename);*/
 };
 
 #endif

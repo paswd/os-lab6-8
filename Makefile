@@ -1,17 +1,17 @@
-FLAGS=-pedantic -Wall -Werror -Wno-sign-compare -Wno-long-long -lm -pthread -lzmq
+FLAGS=-pedantic -Wall -Werror -Wno-sign-compare -Wno-long-long -lm -pthread -lzmq -std=c++11
 COMPILLER=g++
 
 all: start
 
-start: server.o client.o
-	$(COMPILLER) $(FLAGS) -o server server.o
+start: server.o client.o converter.o note.o bintree.o
+	$(COMPILLER) $(FLAGS) -o server converter.o note.o bintree.o server.o
 	$(COMPILLER) $(FLAGS) -o client client.o
 
-server.o: testserver.cpp
-	$(COMPILLER) -c $(FLAGS) -o server.o testserver.cpp
+server.o: server.cpp
+	$(COMPILLER) -c $(FLAGS) server.cpp
 
-client.o: testclient.cpp
-	$(COMPILLER) -c $(FLAGS) -o client.o testclient.cpp
+client.o: client.cpp
+	$(COMPILLER) -c $(FLAGS) client.cpp
 
 clear:
 	-rm -f *.o *.gch *.so server client
@@ -25,3 +25,8 @@ bintree.o: bintree.cpp
 testbintree.o: testbintree.cpp
 	$(COMPILLER) -c $(FLAGS) testbintree.cpp
 
+note.o: note.cpp
+	$(COMPILLER) -c $(FLAGS) note.cpp
+
+converter.o: converter.cpp
+	$(COMPILLER) -c $(FLAGS) converter.cpp
